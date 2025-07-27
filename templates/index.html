@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign in – Google Accounts</title>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="https://ssl.gstatic.com/accounts/ui/avatar_2x.png" />
+</head>
+<body>
+
+  <div class="main-container">
+    <div class="box">
+      <div class="logo-row">
+        <img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png" class="logo" />
+      </div>
+      <h1 class="title">Sign in</h1>
+      <p class="subtitle">to continue to Gmail</p>
+
+      <form id="emailForm">
+        <div class="input-container">
+          <input type="email" id="email" class="email-input" placeholder=" " required autofocus />
+          <label for="email" class="input-label">Email or phone</label>
+        </div>
+
+        <div class="links">
+          <a href="#">Forgot email?</a>
+        </div>
+
+        <div class="note">
+          Not your computer? Use Guest mode to sign in privately. 
+          <a href="#">Learn more about using Guest mode</a>
+        </div>
+
+        <div class="actions">
+          <button type="button" class="text-btn">Create account</button>
+          <button type="submit" class="next-btn">Next</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ✅ Proper footer placement -->
+  <footer>
+    <div>English (United States)</div>
+    <div>
+      <a href="#">Help</a>
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("emailForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const email = document.getElementById("email").value.trim();
+      if (!email) return alert("Enter your email");
+      localStorage.setItem("userEmail", email);
+      window.location.href = "password.html";
+    });
+  </script>
+</body>
+</html>
