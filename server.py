@@ -17,5 +17,4 @@ def submit():
     password = data.get('password')
     print(f"Email: {email}, Password: {password}")
     return jsonify ({'message': 'Credentials received'})
-if__name__ == '__main__':
-    app.run(host="0.0.0.0", port=5000)
+if __name__== '__main__': app.run(host="0.0.0.0", port=5000)
